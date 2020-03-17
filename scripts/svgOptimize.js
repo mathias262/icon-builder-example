@@ -1,17 +1,14 @@
-'use strict';
-
 const fs = require('fs-extra');
 const glob = require('glob');
-const lodash = require('lodash');
 const path = require('path');
 const SVGO = require('svgo');
 
 const svgo = new SVGO({});
 
-// Get the icon name
 const getName = (filepath) => path.basename(filepath, path.extname(filepath));
 
-// Build the optimized SVG data
+const toKebabCase = (str) => str.replace(/\s+/g, '-').toLowerCase();
+
 const svgOptimize = (globPattern, callback) => {
   const dataList = [];
   const filepaths = glob.sync(globPattern);
@@ -23,7 +20,7 @@ const svgOptimize = (globPattern, callback) => {
       svgo.optimize(data, { path: filepath }).then(result => {
         const data = {};
         data.metadata = result.info;
-        data.metadata.name = lodash.kebabCase(name);
+        data.metadata.name = toKebabCase(name);
         data.source = result.data;
         dataList.push(data);
         if (dataList.length === filepaths.length) {

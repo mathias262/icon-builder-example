@@ -1,23 +1,24 @@
-const createModulePackage = require('./createModulePackage');
+const createModules = require('./createModules');
 const del = require('del')
 const fs = require('fs-extra');
 const path = require('path')
 const svgOptimize = require('./svgOptimize');
-const version = require('../package.json').version;
+const config = require('../package.json');
 
-const BUILD_PATH = path.join(__dirname, '..', 'build');
+const BUILD_PATH = path.join(__dirname, '..', 'pkg');
 
-// Build the npm packages
 const createPackages = (svgDataList) => {
-  const packagers = [ createModulePackage ]; // list other packagers here
-  const packages = packagers.map((packager) => packager(svgDataList, version));
+  let modules = createModules(svgDataList, config);
   del.sync(BUILD_PATH);
-  packages.forEach((pack) => {
-    console.log(`Building package: "${pack.name}"`);
-    pack.files.forEach((file) => {
-      fs.outputFile(path.join(BUILD_PATH, pack.name, file.filepath), file.source);
-    })
-  });
+  modules.forEach((file) => {
+    fs.outputFile(path.join(BUILD_PATH, 'src', file.filepath), file.source);
+  })
+  fs.outputFile(path.join(BUILD_PATH, 'package.json'), JSON.stringify(
+    {
+      "name": `${config.name}`,
+      "version": `${config.version}`
+    }
+  ))
 };
 
 svgOptimize('src/*.svg', createPackages);

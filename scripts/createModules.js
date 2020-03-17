@@ -1,8 +1,6 @@
-'use strict';
-
 const getSVGContent = (source) => source.slice(source.indexOf('>') + 1).slice(0, -6);
 
-const createModulePackage = (svgs, version) => {
+const createModulePackage = (svgs, config) => {
   const files = svgs.map((svg) => {
     const source = getSVGContent(svg.source);
     const json = JSON.stringify(Object.assign({}, svg, { source }));
@@ -13,18 +11,7 @@ const createModulePackage = (svgs, version) => {
     }
   });
 
-  files.push({
-    filepath: 'package.json',
-    source: `{
-  "name": "@acme/module-icons",
-  "version": "${version}"
-}`
-  });
-
-  return {
-    name: 'module-icons',
-    files
-  };
+  return files
 };
 
 module.exports = createModulePackage;

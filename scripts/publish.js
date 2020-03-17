@@ -4,7 +4,7 @@ const execSync = require('child_process').execSync;
 
 const exec = command => execSync(command, { stdio: 'inherit' });
 
-const PACKAGES_PATH = path.join(__dirname, '..', 'build');
+const PACKAGES_PATH = path.join(__dirname, '..', 'pkg');
 
 fs.readdirSync(PACKAGES_PATH).forEach((pack) => {
   const packPath = path.join(PACKAGES_PATH, pack);

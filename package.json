@@ -1,19 +1,16 @@
 {
   "private": true,
-  "name": "@el-formo/icons",
-  "version": "1.0.0",
+  "name": "@advisa/icons",
+  "version": "0.1.0",
   "scripts": {
+    "start": "npm run build",
     "build": "NODE_ENV=production node scripts/build.js",
-    "release": "NODE_ENV=production node scripts/release.js"
+    "release": "NODE_ENV=production node scripts/publish.js"
   },
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-plugin-react-native-web": "^0.3.3",
-    "babel-preset-react-native": "^4.0.0",
     "del": "^3.0.0",
     "fs-extra": "^5.0.0",
     "glob": "^7.1.2",
-    "lodash": "^4.17.15",
     "svgo": "^1.3.2"
   }
 }
